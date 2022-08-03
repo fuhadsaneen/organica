@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.desc|truncatewords:150}}
+    {% else %}
+        wellcom to store
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name}}
+    {% else %}
+        our collection
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div>
+    {% if category %}
+    <img src="{{category.img.url}}" width="100%" alt="{{category.name}}">
+</div>
+<br>
+<div>
+<h1>{{category.name}}</h1>
+<p>{{category.desc}}</p>
+</div>
+    {% else %}
+<div>
+<img src="{% static 'img/banner.jpg' %}" WIDTH="100%" alt="{{category.name}}">
+</div>
+<br>
+<div>
+<h1>our product</h1>
+<p>our prouduct is good</p>
+</div>
+{% endif %}
+<div class="container text-center">
+  <div class="row row-cols-3">
+        {% for products in products.object_list %}
+        <div CLASS="span" >
+            <div class="card" >
+                <div class="center">
+              <img src="{{products.img.url}}" alt="{{products.name}}" height="200px" width="100%"  align="middle">
+                </div>
+              <h1>{{products.name}}</h1>
+              <p class="price">${{products.price}}</p>
+              <p>{{ products.desc|truncatewords:10}}</p>
+              <a href="{{products.get_url}}"><button>BUY NOW</button></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+            <br>
+            <br>
+            <br>
+        </div>
+        {% endif %}
+    </div>
+ </div>
+
+
+{% endblock %}

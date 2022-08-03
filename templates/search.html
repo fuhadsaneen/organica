@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        wellcom to store
+{% endblock %}
+{% block title %}
+        our collection
+{% endblock %}
+{% block content %}
+ <div class="row mx-auto">
+                  <p class="text-center my_search">result of <b>{{query}}</b></p>
+
+          </div>
+
+<div class="container text-center">
+  <div class="row row-cols-3">
+        {% for products in products %}
+      <div CLASS="span" >
+                <div class="card" >
+                    <div class="center">
+                  <img src="{{products.img.url}}" alt="{{products.name}}" height="200px" width="100%"  align="middle">
+                    </div>
+                  <h1>{{products.name}}</h1>
+                  <p class="price">${{products.price}}</p>
+                  <p>{{ products.desc|truncatewords:10}}</p>
+                  <a href="{{products.get_url}}"><button>BUY NOW</button></a>
+                </div>
+            </div>
+        {% empty %}
+          <div class="row mx-auto">
+                  <p class="text-center my_search_text"> is not found</p>
+
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

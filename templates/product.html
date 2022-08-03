@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" >
+    <link href="{% static 'css/prouduct.css' %}" rel="stylesheet" >
+    <meta name="description" content="{{ product.desc|truncatewords:150}}">
+    <title>{{product.name}}</title>
+</head>
+<body>
+<div class="container">
+{% include 'header.html' %}
+{% include 'navber.html' %}
+  <br>
+<!--=================================================================-->
+<section class="product">
+	<div class="product__photo">
+		<div class="photo-container">
+			<div class="photo-main">
+				<img  src="{{product.img.url}}" alt="{{product.name}}" height="360px" width="530px">
+			</div>
+		</div>
+	</div>
+	<div class="product__info">
+		<div class="title">
+			<h1>{{product.name}}</h1>
+			<span>{{product.category}}</span>
+		</div>
+		<div class="price">
+			R$ <span>{{product.price}}</span>
+		</div>
+
+		<div class="description">
+			<h3>Description</h3>
+             <p>{{product.desc}}</p>
+
+		</div>
+        {% if product.stock <= 0 %}
+        <b>out of stock</b>
+        {% else %}
+		<a class="btn btn-success" href="{% url 'cart:add_cart' product.id %}" role="button"> 🛒 ADD CART</a>
+		{% endif %}
+
+	</div>
+</section>
+
+<!--=======================================================-->
+</div>
+<br>
+{% include 'footer.html' %}
+<script src="{% static 'js/popper.min.js' %}" ></script>
+<script src="{% static '/js/bootstrap.min.js' %}" ></script>
+
+
+</body>
+</html>

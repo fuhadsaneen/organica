@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shopping Cart UI</title>
+	<link href="{% static 'css/cart.css' %}" rel="stylesheet" >
+
+</head>
+<body>
+{% if not cart_items %}
+<div class="CartContainer">
+   	   <div class="Header">
+   	   	<h3 class="Heading">your Shopping Cart</h3>
+   	   </div>
+    <div>
+        <center>
+        <a  href="{% url 'shop:allprodcat' %}">click here to purchase</a>
+            </center>
+    </div>
+</div>
+{% else %}
+   <div class="CartContainer" >
+   	   <div class="Header">
+   	   	<h3 class="Heading">Shopping Cart</h3>
+   	   	<a  href="{% url 'shop:allprodcat' %}">continue shoping</a>
+   	   </div>
+    {% for cart_item in cart_items %}
+	   <br>
+   	   <div class="Cart-Items">
+   	   	  <div class="image-box">
+   	   	  	<a href="#"> <img src="{{cart_item.product.img.url}}" height="100px" width="100px"></a>
+   	   	  </div>
+   	   	  <div class="about">
+   	   	  	<h4 class="title">{{cart_item.product.name}}</h4>
+   	   	  	<h3 class="subtitle">{{cart_item.product.price}}</h3>
+   	   	  </div>
+   	   	  <div class="counter">
+			  {% if cart_item.quantity < cart_item.product.stock %}
+			  <a class="btn" href="{% url 'cart:add_cart' cart_item.product.id %}">+</a>
+			  {% else %}
+			  <h1>🔴</h1>
+			  {% endif %}
+   	   	  	<div class="count">{{cart_item.quantity}}</div>
+   	   	  	<a class="btn" href="{% url 'cart:cart_remove' cart_item.product.id %}">-</a>
+   	   	  </div>
+   	   	  <div class="prices">
+   	   	  	<div class="amount">{{cart_item.sub_total}}</div>
+   	   	  	<div class="save"><u>Save for later</u></div>
+   	   	  	<a class="remove" href="{% url 'cart:full_remove' cart_item.product.id %}"><u>Remove</u></a>
+   	   	  </div>
+   	   </div>
+       {% endfor %}
+
+   	 <hr>
+   	 <div class="checkout">
+   	 <div class="total">
+   	 	<div>
+   	 		<div class="Subtotal">Sub-Total</div>
+			{% if item_count > 0 %}
+   	 		<div class="items">{{item_count}} items</div>
+			{% endif %}
+   	 	</div>
+   	 	<div class="total-amount">{{total}}</div>
+   	 </div>
+   	 <button class="button">Checkout</button></div>
+   </div>
+{% endif %}
+</body>
+</html>
